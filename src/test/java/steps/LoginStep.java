@@ -51,7 +51,7 @@ public class LoginStep {
         String usrPaswd = datafile.getData("usrpaswd");
         lpOb.enterUsrNameAndpasswdRCM(usrName,usrPaswd);
     }
-    @Given("^user navigates to ABC product page$")
+    @Given("^user logins to ABC web application$")
     public void goToProductPage() throws IOException, InterruptedException {
 
         String paymentGateway = datafile.getData("checkAccountData");
@@ -225,7 +225,7 @@ public class LoginStep {
 
     }
 
-    @When("^user search for a product$")
+    @When("^user search for club and member$")
     public void searchProduct() throws InterruptedException, IOException {
         String checkRCMData=datafile.getData("checkRCMData");
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -254,26 +254,12 @@ public class LoginStep {
             }
 
                 memId = entry.getKey().toString().replace(".0","");
-                // clubNumbr = entry.getValue().get(0).split("\\.")[0];
                 fname = entry.getValue().get(1).split(" ")[0];
                 scndname = entry.getValue().get(2);
                 transDate = entry.getValue().get(4);
                 expectdAmount = entry.getValue().get(6);                                      ////------------
                 memberType = lpOb.searchMemberAndGetMemType(fname, scndname,clubNumbr, memId);
-//                if(lpOb.getMemberStatus().equalsIgnoreCase("ACTIVE")){
-//                lpOb.clickPaymentsTab();
-//                System.out.println(lpOb.getRCMAmount(datafile.getData("beginDate")));
-//                String rcmAmnt=lpOb.getRCMAmount(datafile.getData("beginDate")).split("\\$")[1].trim();
-//                System.out.println(rcmAmnt);
-//                System.out.println(expectdAmount);
-//
-//            if (Double.parseDouble(rcmAmnt) == Double.parseDouble(expectdAmount)) {                     /////////////////
-//                AmountCorrect = "True";
-//            }else{
-//                AmountCorrect="False";
-//            }}else{
-//                    AmountCorrect="TBV";
-//                }
+
                 if(memberType=="Pass") {
                     memStatus = lpOb.getMemberStatus();
                     clubName = lpOb.getClubName(clubNumbr);
@@ -287,7 +273,7 @@ public class LoginStep {
                     lpOb.fileAppendData(finalData);
                 }else {
                     finalData = finalData + memId + "," + memberType + "," + memStatus + "," + expectdAmount + "," + clubNumbr + "," + clubName + "," + fname + " " + scndname + "," + transDate;
-                    lpOb.fileAppendData(finalData+"\n");//   "/n"
+                    lpOb.fileAppendData(finalData+"\n");
                     continue;
                    }
         }
@@ -295,7 +281,7 @@ public class LoginStep {
     }
     }
 
-    @Then("^right category is shown$")
+    @Then("^member validation is done$")
     public void checkCategory() {
 //        String expectedProductCategory = datafile.getData("productCategory");
 //        String actualProductCategory = lpOb.getCategory();

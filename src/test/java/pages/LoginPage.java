@@ -34,11 +34,12 @@ public class LoginPage extends BaseUtil {
     By yesBT=By.xpath("//input[contains(@id,'idSIButton')]");
     By bsnesButton = By.xpath("//li[@role='listitem']/descendant::h2[contains(text(),\"Business\")]");
     By clubSearchBox = By.xpath("//input[@id=\"searchInput\"]") ;
-
-    By srchButton = By.xpath("//input[@id='memberListSearchInput']");
+    //div[@data-abc-id='tableViewSearchInputTooltip']
+    By srchButton = By.xpath("//div[@data-abc-id='tableViewSearchInputTooltip']/descendant::input");
     By memberButton = By.xpath("//a[@data-abc-id=\"navBarLink\" and contains(text(),'Members')]");
     By backButtonMemberSearch = By.xpath("//*[@class=\"ui-icon icon-arrow-left-thin\"]");
-    By srchClearButton = By.xpath("//*[@data-abc-id='memberListSearchInputTooltip']//*[@data-abc-id='iconClose']");
+    //By srchClearButton = By.xpath("//*[@data-abc-id='memberListSearchInputTooltip']//*[@data-abc-id='iconClose']");
+    By srchClearButton = By.xpath("//*[@data-abc-id='clearIcon']");
     By memList = By.xpath("//*[@data-abc-id='memberList']");
 
     By subscriptiontab = By.xpath("//div[contains(text(),'Subscriptions')]");
@@ -54,6 +55,7 @@ public class LoginPage extends BaseUtil {
     By statementCreatedDate = By.xpath("(//table[@data-abc-id=\"accountStatementsTable\"]//td[@data-abc-id='createdDate'])[1]");
     By statementPostedDate = By.xpath("(//table[@data-abc-id=\"accountStatementsTable\"]//td[@data-abc-id='postingDate'])[1]");
     By memButton = By.xpath("//*[@data-abc-id=\"navBarLink\" and contains(text(),'Members')]");
+
     public void enterUsrNameAndpasswdRCM(String usrName, String passwd) {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         getDriver().findElement(usrname).clear();
@@ -108,14 +110,13 @@ public class LoginPage extends BaseUtil {
 
         if(count==1){
             getDriver().findElement(memList).click();
-            sleep(2000);////////////////////////////////           /////   4
+            sleep(2000);
             //           explicitlyWaitOnElement(srchClearButton,10);
                 if(1==getDriver().findElements(srchClearButton).size())
                     getDriver().findElement(srchClearButton).click();
         }
 
-        sleep(2000);    /////////////////////////////
-//        explicitlyWaitOnElement(memberButton,10);
+        sleep(2000);
         getDriver().findElement(memberButton).click();
         getDriver().findElement(srchButton).click();
 
@@ -123,54 +124,55 @@ public class LoginPage extends BaseUtil {
             getDriver().findElement(srchClearButton).click();
         }
 
-        // if agrementNum i.e. length of memberId is less than 2, search does not give expected result
-        if(agrementNum.length() <=3){     ////==2         //==3  from my side change
-            getDriver().findElement(srchButton).sendKeys(lName);        //sendkeys(fName)
- //           clearMemSearchBox();
+        // if agrementNum i.e. length of memberId is less than 3, search does not give expected result
+        if(agrementNum.length() <=3){
+            getDriver().findElement(srchButton).sendKeys(lName);
         }else{
             getDriver().findElement(srchButton).sendKeys(agrementNum);
         }
         String agrNumXpath = "";
-        if(clubNum.length()==3){             //    --------------------------------------------------
+        if(clubNum.length()==3){
             clubNum = "0"+clubNum;
         }
 
+//        if(lName.equalsIgnoreCase("'"+"+lName+")){
+//
+//        }
+
         agrementNum = agrementNum.replace(".0","");
         if(agrementNum.startsWith("B")){
-            agrNumXpath = "//td[@data-abc-id='agreement']//span[contains(text(),\"0" +clubNum+""+agrementNum+"\")]";
+            agrNumXpath = "//td[@data-abc-id='agreementNumber']//span[contains(text(),\"0" +clubNum+""+agrementNum+"\")]";
         }
         else if(agrementNum.startsWith("0000")){
-            // agrNumXpath = "//td[@data-abc-id='agreement']//span[contains(text(),\"00" +clubNum+""+agrementNum+"\")]";
-            agrNumXpath= "//*[@data-abc-id='memberNameText' and contains(text(),'"+ fName +"')]";
+          agrNumXpath= "//*[@data-abc-id='memberName' and contains(text(),'"+fName+"') and contains(text(),'"+lName+"')]";
         }else if(agrementNum.startsWith("000")) {
-            agrNumXpath= "//*[@data-abc-id='memberNameText' and contains(text(),'"+ fName +"')]";
+            agrNumXpath= "//*[@data-abc-id='memberName' and contains(text(),'"+fName+"') and contains(text(),'"+lName+"')]";
         }
         else if(agrementNum.length()==4){
-            agrNumXpath = "//td[@data-abc-id='agreement']//span[contains(text(),\"00" +clubNum+"00"+agrementNum+"\")]";
+            agrNumXpath = "//td[@data-abc-id='agreementNumber']//span[contains(text(),\"00" +clubNum+"00"+agrementNum+"\")]";
         }else if(agrementNum.endsWith("B")){
-            agrNumXpath = "//td[@data-abc-id='agreement']//span[contains(text(),\"00" +clubNum+""+agrementNum+"\")]";
+            agrNumXpath = "//td[@data-abc-id='agreementNumber']//span[contains(text(),\"00" +clubNum+""+agrementNum+"\")]";
         }else if(agrementNum.length()<4){
             if(agrementNum.length()==1){
-                agrNumXpath= "//*[@data-abc-id='memberNameText' and contains(text(),'"+fName+"') and contains(text(),'"+lName+"')]";
+                agrNumXpath= "//*[@data-abc-id='memberName' and contains(text(),'"+fName+"') and contains(text(),'"+lName+"')]";
             }
             else if(agrementNum.length()==2){
-                agrNumXpath= "//*[@data-abc-id='memberNameText' and contains(text(),'"+fName+"') and contains(text(),'"+lName+"')]";
+                agrNumXpath= "//*[@data-abc-id='memberName' and contains(text(),'"+fName+"') and contains(text(),'"+lName+"')]";
             }
             else if(agrementNum.length()==3){
-                agrNumXpath= "//*[@data-abc-id='memberNameText' and contains(text(),'"+fName+"') and contains(text(),'"+lName+"')]";
+                agrNumXpath= "//*[@data-abc-id='memberName' and contains(text(),'"+fName+"') and contains(text(),'"+lName+"')]";
             }
 
         }else if(agrementNum.length()==6){
-            agrNumXpath = "//td[@data-abc-id='agreement']//span[contains(text(),\"00" +clubNum+""+agrementNum+"\")]";
+            agrNumXpath = "//td[@data-abc-id='agreementNumber']//span[contains(text(),\"00" +clubNum+""+agrementNum+"\")]";
         }
         else
             {
-            agrNumXpath = "//td[@data-abc-id='agreement']//span[contains(text(),\"00" +clubNum+"0"+agrementNum+"\")]";
+            agrNumXpath = "//td[@data-abc-id='agreementNumber']//span[contains(text(),\"00" +clubNum+"0"+agrementNum+"\")]";
         }
 
         By agrementNumber = By.xpath(agrNumXpath);
-        //sleep(2000);                     ///24-5-2022
-        if(getDriver().findElements(agrementNumber).size()>0){     ////  >0
+        if(getDriver().findElements(agrementNumber).size()>0){
             getDriver().findElement(agrementNumber).click();
             return "Pass";
         }else{
@@ -232,7 +234,6 @@ public class LoginPage extends BaseUtil {
         List<WebElement> columnsList = null;
 
         List<String> rowData = new ArrayList<String>();
-
         Map<Integer,List<String>> tableData = new HashMap<Integer,List<String>>();
 
         System.out.println();
@@ -335,13 +336,12 @@ return tableData;
 
         String finalDataTobeVerified = "";
 
-        String getStatus = "", getPaymntId = "", getAmount = "", createdDate = "", postedDate = "";
+        String getStatus = "", getPaymntMethod = "", getAmount = "", createdDate = "", postedDate = "";
 
         if(recurringPayment == 1 ){
             // From Transaction History Table
-        //    sleep(2000);
              getStatus = getDriver().findElement(status).getText();
-             getPaymntId = getDriver().findElement(paymentMethod).getText();
+            getPaymntMethod = getDriver().findElement(paymentMethod).getText();
              getAmount = getDriver().findElement(amount).getText().replace("$","").replace(",","");
              createdDate = usrDate;
              postedDate = getDriver().findElement(postDate).getText();
@@ -354,7 +354,7 @@ return tableData;
                 getStatus = getDriver().findElement(invoiceStatus).getText();
             }
         }
-        finalDataTobeVerified = getPaymntId +","+ getStatus +","+ ","+ "," + expectedInvAmnt + ","+  getAmount +"," + createdDate+","+ postedDate +"," +amountCorrect;  // getStatementAmount +","+ statusInfo
+        finalDataTobeVerified = getPaymntMethod +","+ getStatus +","+ ","+ "," + expectedInvAmnt + ","+  getAmount +"," + createdDate+","+ postedDate +"," +amountCorrect;  // getStatementAmount +","+ statusInfo
         return finalDataTobeVerified;
     }
 
@@ -518,13 +518,23 @@ return tableData;
             case "40063" : return  "RAGE FITNESS SPRINGFIELD";
             case "243" : return  "OMEGA FITNESS AND TRAINING";
             case "30361" : return  "REPS FITNESS AND NUTRITION CTR";
+            case "3595" : return  "CONNIE WOLD WELLNESS CENTER";
+            case "5827": return "RESULTS PERSONAL TRAINING";
+            case "7553": return "STATE STREET FITNESS";
+            case "30288": return "NEW U FITNESS";
+            case "4594": return "HEALTH AND FITNESS HQ";
+            case "7196": return "BUFFALO'S ULTIMATE FITNESS";
+            case "10017": return "HIGHPOINT FITNESS";
+            case "1844": return "PREMIERE FITNESS";
+            case "30356": return "CHICO SPORTS CLUB";
+            case "30511": return "C12 ATHLETICS";
+            case "6571": return "FLOW FITNESS LAWRENCE MA";
             default:
                 return	"Update the club Name in CodeBase";
         }
     }
 
     // Batch Data fetch Code
-
     public void batchBeginDate(String date){
         getDriver().findElement(batchDataStartDate).click();
         getDriver().findElement(batchDataStartDate).sendKeys(Keys.BACK_SPACE);
