@@ -1,6 +1,7 @@
 package Base;
 
 import helper.fileMapping;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -12,8 +13,7 @@ public class BaseUtil {
         if (driver == null){
             try {
                 datafile = new fileMapping(workingDir + "\\config\\Configuration.properties");
-                String chromeDriverLoc = workingDir + datafile.getData("chromeDriverPath");
-                System.setProperty("webdriver.chrome.driver", chromeDriverLoc);
+                WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver();
             } catch (Exception e) {
                 e.printStackTrace();
