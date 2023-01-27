@@ -72,7 +72,7 @@ public class LoginStep {
             validLogin();
             lpOb.clickBatchModule();
             lpOb.sleep(10000);
-            //    lpOb.explicitlyWaitOnElement(10);
+            //lpOb.explicitlyWaitOnElement(10);
             Map<Integer, List<String>> batchFileData = lpOb.getTableData("fileMonitorRow");
             int noOfBatches = batchFileData.size();
             lpOb.fileAppendData("\n Number of batches is "+noOfBatches);
@@ -246,9 +246,11 @@ public class LoginStep {
            x = entry.getValue().get(0).split("\\.")[0];
            if(clubNumbr == null || !clubNumbr.equalsIgnoreCase(x)){
                 clubNumbr = entry.getValue().get(0).split("\\.")[0];
+//                clubNumbr="0"+""+clubNumbr;
                 lpOb.clearClub();
                 lpOb.clickBusiness();
                 lpOb.searchClub(clubNumbr);
+                //lpOb.sleep(1000);
                 lpOb.clickClub(clubNumbr);
                 lpOb.clickMemberButton();
             }

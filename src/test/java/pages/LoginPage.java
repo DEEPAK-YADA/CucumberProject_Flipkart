@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -83,8 +84,9 @@ public class LoginPage extends BaseUtil {
 
     public void clickBusiness() throws InterruptedException {
         //Thread.sleep(2000);
-          explicitlyWaitOnElement(bsnesButton,10);             //////     1
-        getDriver().findElement(bsnesButton).click();
+         explicitlyWaitOnElement(bsnesButton,10);             //////     1
+         getDriver().findElement(bsnesButton).click();
+         //actionClick(bsnesButton);
     }
 
     public void searchClub(String clubNumr){
@@ -93,25 +95,34 @@ public class LoginPage extends BaseUtil {
 
     public void clickClub(String clubNumbr) throws InterruptedException {
 //       Thread.sleep(2000);
-        explicitlyWaitOnElement(clubSearchBox,10);               ////   2
+//        explicitlyWaitOnElement(clubSearchBox,10);               ////   2
         String xpathVal = "//span[@data-abc-id='extraContent' and contains(text(),'"+clubNumbr+"')]";
         By club = By.xpath(xpathVal);
-        getDriver().findElement(club).click();
+        //getDriver().findElement(club).click();`
+        //clickMemberButton1(club);
+        sleep(2000);
+        actionClick(club);
+    }
+    public void actionClick(By by){
+        new Actions(driver).moveToElement(findElement(by)).click().build().perform();
+    }
+    public void clickMemberButton1(By by){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOf(findElement(by)));
+        wait.until(ExpectedConditions.elementToBeClickable(findElement(by)));
     }
 
     public void clickMemberButton() throws InterruptedException {
-//        Thread.sleep(2000);
-        explicitlyWaitOnElement(memButton,10);             ////   3
+        explicitlyWaitOnElement(memButton,20);             ////   3
         getDriver().findElement(memButton).click();
     }
 
     public String searchMemberAndGetMemType(String fName,String lName, String clubNum, String agrementNum) throws InterruptedException {
         int count = getDriver().findElements(memList).size();
-
         if(count==1){
             getDriver().findElement(memList).click();
             sleep(2000);
-            //           explicitlyWaitOnElement(srchClearButton,10);
+            //explicitlyWaitOnElement(srchClearButton,10);
                 if(1==getDriver().findElements(srchClearButton).size())
                     getDriver().findElement(srchClearButton).click();
         }
@@ -341,7 +352,7 @@ return tableData;
         if(recurringPayment == 1 ){
             // From Transaction History Table
              getStatus = getDriver().findElement(status).getText();
-            getPaymntMethod = getDriver().findElement(paymentMethod).getText();
+             getPaymntMethod = getDriver().findElement(paymentMethod).getText();
              getAmount = getDriver().findElement(amount).getText().replace("$","").replace(",","");
              createdDate = usrDate;
              postedDate = getDriver().findElement(postDate).getText();
@@ -470,35 +481,35 @@ return tableData;
    public String getClubName(String clubNumber){
         switch(clubNumber){
             case "520": return "TAN 24-7 FREMONT";
-            case "2000": return    "JAMES A. BOTTIN";
-            case "2002": return    "BOTTIN FAMILY REAL ESTATE LLC";
-            case "2908": return    "HARVEY'S GYM OF FRANKLIN";
-            case "3683": return    "MG SPORTS AND FITNESS";
-            case "3706": return    "New Life Fitness Center";
-            case "3726": return    "JUNGLE GYM FITNESS";
-            case "3948": return    "NEW ENGLAND FIT AND MMA";
+            case "2000": return "JAMES A. BOTTIN";
+            case "2002": return "BOTTIN FAMILY REAL ESTATE LLC";
+            case "2908": return "HARVEY'S GYM OF FRANKLIN";
+            case "3683": return "MG SPORTS AND FITNESS";
+            case "3706": return "New Life Fitness Center";
+            case "3726": return "JUNGLE GYM FITNESS";
+            case "3948": return  "NEW ENGLAND FIT AND MMA";
             case "3959": return "LIFE FITNESS PROS";
-            case "4150": return    "Pilgers Womens Bootcamp";
-            case "4572": return    "THE FITNESS ZONE";
-            case "4613": return    "BAM ADVENTURE BOOT CAMP";
-            case "5319": return    "ROCK CITY MMA";
-            case "5342": return    "CATOCTIN CROSSFIT PURCELLVILLE";
-            case "5552": return    "CONFLUENCE CLUB WORKS MXMETRIC";
-            case "5810": return    "ELITE COMBAT ACADEMY";
-            case "5855": return    "PAGELAND FITNESS AND WELLNESS";
-            case "6060": return    "THE PUMPHOUSE HENDERSONVILLE";
-            case "7095": return    "UNITED KARATE STUDIO";
-            case "7722": return    "MUSCLES AND CURVES GYM";
-            case "7875": return    "TKI FAMILY MARTIAL ARTS";
+            case "4150": return  "Pilgers Womens Bootcamp";
+            case "4572": return "THE FITNESS ZONE";
+            case "4613": return "BAM ADVENTURE BOOT CAMP";
+            case "5319": return  "ROCK CITY MMA";
+            case "5342": return  "CATOCTIN CROSSFIT PURCELLVILLE";
+            case "5552": return  "CONFLUENCE CLUB WORKS MXMETRIC";
+            case "5810": return  "ELITE COMBAT ACADEMY";
+            case "5855": return  "PAGELAND FITNESS AND WELLNESS";
+            case "6060": return  "THE PUMPHOUSE HENDERSONVILLE";
+            case "7095": return "UNITED KARATE STUDIO";
+            case "7722": return "MUSCLES AND CURVES GYM";
+            case "7875": return  "TKI FAMILY MARTIAL ARTS";
             case "4099": return "Old Skool Fight Sports Fitness";
-            case "7541": return "Titus Strength";
+            case "7541": return  "Titus Strength";
             case "6019" : return "LADIES FITNESS AND WELLNESS MB";
             case "8730" : return "PLAINFIELD GYM AND TAN";
             case "9971" : return "Evendo LLC";
             case "4300" : return "XTREME PHYSIQUE";
             case "7997" : return "CONTOURS EXPRESS";
-            case "2928"    : return "REVOLUTION MIXED MARTIAL ARTS";
-            case "8205"    : return "CABARRUS PROF FIREFIGHTER ASSN";
+            case "2928"  : return "REVOLUTION MIXED MARTIAL ARTS";
+            case "8205"  : return "CABARRUS PROF FIREFIGHTER ASSN";
             case "3204" : return "BRUTAL IRON GYM";
             case "3505" : return "TEXAS ROWING CENTER";
             case "8429" : return  "LELIA PATTERSON CENTER";
@@ -560,7 +571,7 @@ return tableData;
             case "2909": return "FITNESS1";
             case "30265": return "SUN CITY ATHLETIC CLUB";
             case "30548": return "MODERN FITNESS";
-            case "3488": return "PERFORMANCE HEALTH CORALVILLE";
+            case "03488": return "PERFORMANCE HEALTH CORALVILLE";
             case "4477": return "ADVENTHEALTH WELLNESS CENTER";
             case "5272": return "EXTREME STUDIO PERFORMANCE";
             case "5354": return "THE GYM 247 LEBANON";
@@ -631,6 +642,198 @@ return tableData;
             case "5677": return "HARDBODIES FITNESS TRAINING";
             case "5791": return "DESTINY FITNESS ASHBY";
             case "9622": return "EMPORIA FITNESS";
+            case "30583": return "FREELAND SPORTSZONE";
+            case "3455": return "HOURGLASS WOMEN'S WELLNESS";
+            case "1430": return "BETTER LIFESTYLE CLUB";
+            case "1470": return "LIFT CENTRAL";
+            case "30056": return "BMA ACADEMY";
+            case "4322": return "FIT FOR LIFE EXERCISE CENTER";
+            case "6087": return "LIFT SOUTH";
+            case "616": return "PURE POWER FITNESS";
+            case "622": return "LIFT NORTH";
+            case "8293": return "NRICH FITNESS";
+            case "8555": return "LIFT MARSHFIELD";
+            case "9775": return "CHARLEVOIX FITNESS CENTER";
+            case "7814": return "J TOWN FITNESS";
+            case "7877": return "B TOWN FITNESS";
+            case "7921": return "K TOWN FITNESS";
+            case "30293": return "GEORGETOWN FITNESS";
+            case "30339": return "FIT 1 REXBURG";
+            case "30657": return "FIT 1 RIGBY";
+            case "8037": return "WELLNESS FOR LIFE FITNESS CTR";
+            case "7538": return "AQUATIC AND WELLNESS CENTER";
+            case "9587": return "LNK FITNESS 24";
+            case "9247": return "PEAK FITNESS SALTILLO";
+            case "3914": return "INNOVATIVE FITNESS FIRCREST";
+            case "3954": return "INNOVATIVE FITNESS GIG HARBOR";
+            case "805": return "GIANT SPORTZ BELLFLOWER";
+            case "807": return "GIANT SPORTZ CHINO";
+            case "8381": return "BRIELLE SPORTS CLUB";
+            case "5752": return "WARRIOR FITNESS";
+            case "7129": return "PHYSICAL THERAPY TODAY";
+            case "8311": return "COURT HOUSE FITNESS";
+            case "30702": return "GOLD'S GYM PEORIA";
+            case "3718": return "FITNESS DEPOT PICAYUNE";
+            case "8089": return "JUNIATA FITNESS";
+            case "9481": return "FITNESS DEPOT GYMS LAUREL";
+            case "9482": return "FITNESS DEPOT GYMS COLUMBIA";
+            case "9483": return "FITNESS DEPOT GYMS MERIDIAN";
+            case "9484": return "FITNESS DEPOT GYMS ELLISVILLE";
+            case "9849": return "2030 FASTTRACK EAST COBB";
+            case "1285": return "INSIDEOUT LIFEGYM MEMPHIS";
+            case "30063": return "STRENGTH HAVEN";
+            case "30124": return "WOLVES DEN GYM";
+            case "30158": return "COVINGTON ATHLETIC CLUB";
+            case "30289": return "ANN ARBOR ARMS";
+            case "3409": return "UPLIFTERS FITNESS STUDIO";
+            case "6077": return "STYLES STUDIOS FITNESS";
+            case "7170": return "PRO 1 TRAINING AND FITNESS";
+            case "8426": return "THE REFINERY";
+            case "10070": return "ABLE STRENGTH FITNESS";
+            case "30123": return "GYMAGE MIAMI";
+            case "3591": return "PRINCETON 247 FITNESS";
+            case "30033": return "MONSTER BODYBUILDING SPORTS";
+            case "30556": return "MERCEDES CLUB";
+            case "30605": return "FITNESS ELEVATIONS";
+            case "3816": return "METROFLEX GYM AUSTIN";
+            case "5597": return "POINT LOMA SPORTS CLUB";
+            case "5776": return "TIMBERSTRENGTH HEALTH WELLNESS";
+            case "5868": return "SOUTHTOWN GYM";
+            case "7106": return "SOUTH SHORE IRON";
+            case "7116": return "SPORTSCENTER ATHLETIC CLUB";
+            case "8707": return "TRAINING STATION PORT WASH";
+            case "8708": return "TRAINING STATION GLEN COVE";
+            case "1245": return "HEALTH CLUB AT TRAVIS PLACE";
+            case "30199": return "FULL SPECTRUM FITNESS";
+            case "30584": return "STRENGTH STATION";
+            case "4212": return "TEXAS FIT CLUB GYM BURLESON";
+            case "4360": return "365 FITNESS LLC";
+            case "7638": return "HENRIETTA FITNESS COMPANY";
+            case "8173": return "POTOMAC TOTAL FITNESS";
+            case "4517": return "METROFLEX GYM SAN MARCOS";
+            case "4801": return "THE LAB";
+            case "5344": return "HOUSE OF GAINZ";
+            case "5768": return "MAXIMUS GYM";
+            case "6082": return "THE ZONE GYM";
+            case "6458": return "CLUB FITNESS WAUPUN";
+            case "6588": return "WALDORF FITNESS CENTER";
+            case "691": return "ALPHA X FITNESS";
+            case "8341": return "PHOENIX FITNESS TUCKAHOE";
+            case "8440": return "MAXIMUS HEALTH AND FITNESS";
+            case "85": return "MID CITY GYM AND TAN NEW YORK";
+            case "30153":return "POWER SHACK GYM NORTHWEST";
+            case "30154":return "POWER SHACK GYM SOUTHWEST";
+            case "30155":return "POWER SHACK GYM SOUTHEAST";
+            case "30156":return "POWER SHACK GYM NORTHEAST";
+            case "3671":return "POWER SHACK GYM HILLIARD";
+            case "40008":return "TRUE FITNESS ARLINGTON II";
+            case "4020":return "TRUE FITNESS ARLINGTON MA";
+            case "4021":return "TRUE FITNESS MEDFORD";
+            case "4025":return "TRUE FITNESS SOUTHIE";
+            case "4033":return "TRUE FITNESS TEWKSBURY";
+            case "4674":return "FIT POINTE VALPARAISO";
+            case "4689":return "SOUTHLAKE MARTIALART VALPARAIS";
+            case "6874":return "DENVER GYM AND FITNESS";
+            case "7631":return "TRUE FITNESS TEWKSBURY II";
+            case "8":return "NAUTILUS OF DENISON";
+            case "30117":return "QUICK FITNESS 24-7 MARYVILLE";
+            case "30118":return "QUICK FITNESS 24-7 GREENBACK";
+            case "3617":return "GOD'S GYM BOWDON";
+            case "3887":return "SPRING HILL FITNESS";
+            case "4508":return "KIA ORA FITNESS";
+            case "6110":return "BRICKHOUSE GYM";
+            case "7883":return "KISSIMMEE MUSCLE SPORTS";
+            case "8521":return "SOUTHERN FITNESS";
+            case "9590":return "HOMETOWN FITNESS";
+            case "30357":return "THE TRAINING CENTER";
+            case "3792":return "HALL OF HEROES FITNESS";
+            case "40127":return "REDSKULL FITNESS FOX PLAZA";
+            case "9029":return "BRIAN'S GYM";
+            case "30059":return "REDSKULL FITNESS HORIZON";
+            case "2423":return "LOUISBURG ATHLETIC CLUB";
+            case "40079":return "HUB CITY FITNESS ELITE";
+            case "5312":return "MEGA GYM 247 MURRAY KY";
+            case "5314":return "MEGA GYM BENTON KY";
+            case "5315":return "MEGA GYM 247 MAYFIELD KY";
+            case "7604":return "HUB CITY FITNESS YOUNGSVILLE";
+            case "30542":return "GRIZZLY FAMILY FITNESS";
+            case "40065":return "THE GYM AV";
+            case "4307":return "FITNESS WORKS";
+            case "4661":return "24 MONETT";
+            case "5304":return "BERLIN FITNESS";
+            case "6305":return "THE GYM VICTORVILLE";
+            case "7408":return "TWO GUN TACTICAL";
+            case "8660":return "24 CARTHAGE";
+            case "8661":return "24 WEBB CITY";
+            case "8662":return "24 JOPLIN SOUTH";
+            case "8663":return "24 JOPLIN NORTHPARK";
+            case "4159": return "POUND 4 POUND";
+            case "4381": return "SPECTRUM SPORTS PLEX";
+            case "7057": return "ELITE FITNESS GYM";
+            case "3795": return "COMPLETE FITNESS HOUSE SPRGS";
+            case "30558": return "THE GYM ENGLEWOOD";
+            case "3864": return "DESTINY FITNESS CORDELE";
+            case "40015": return "DESTINY FITNESS MACON";
+            case "7864": return "DESTINY FITNESS COCHRAN";
+            case "7865": return "DESTINY FITNESS COLUMBUS";
+            case "7866": return "DESTINY FITNESS CORDELE";
+            case "7867": return "DESTINY FITNESS EASTMAN";
+            case "7868": return "DESTINY FITNESS FITZGERALD";
+            case "7869": return "DESTINY FITNESS FORT VALLEY";
+            case "7871": return "DESTINY FITNESS MOULTRIE";
+            case "7872": return "DESTINY FITNESS PERRY";
+            case "7873": return "DESTINY FITNESS SYLVESTER";
+            case "7890": return "DESTINY FITNESS TIFTON";
+            case "40069": return "CHRISTUS MOTHER FRANCES -RSO";
+            case "5822": return "BUSY BODY FITNESS CENTER";
+            case "6521": return "TRINITY MOTHER FRANCES FITNESS";
+            case "6591": return "TRINITY MOTHER FRANCES FITNESS";
+            case "6592": return "TRINITY MOTHER FRANCES FITNESS";
+            case "6593": return "TRINITY MOTHER FRANCES FITNESS";
+            case "6594": return "TRINITY MOTHER FRANCES FITNESS";
+            case "6951": return "WEST SEATTLE HEALTH CLUB";
+            case "30061": return "THE GYM CHULA VISTA";
+            case "30167": return "THE GYM MESA";
+            case "30226": return "SISU STRENGTH ACADEMY";
+            case "5702": return "SANTA PAULA FITNESS";
+            case "7508": return "FLEETS FITNESS CENTER";
+            case "8668": return "BODY REFINERY GYM";
+            case "9588": return "THE GYM VISTA";
+            case "1132": return "10 STAR FITNESS GREENVILLE";
+            case "1232": return "10 STAR FITNESS ANDERSON";
+            case "6232": return "10 STAR FITNESS SPARTANBURG";
+            case "6332": return "10 STAR FITNESS SPARTANBURG";
+            case "6519": return "TEAM OCTOPUS CHAMBLEE";
+            case "6524": return "TEAM OCTOPUS CARTERSVILLE";
+            case "6946": return "TEAM OCTOPUS SANDY SPRINGS";
+            case "6950": return "TEAM OCTOPUS MIDTOWN";
+            case "30086": return "FUNCTIONAL FITNESS";
+            case "30047": return "TIME TO RISE FITNESS";
+            case "5765": return "THREE RIVERS FITNESS";
+            case "5806": return "DAHLONEGA FITNESS CENTER";
+            case "5965": return "FLEX GYM";
+            case "6856": return "FOOTHILL FITNESS AND AEROBIC";
+            case "7542": return "GOOD HEALTH FITNESS";
+            case "30457": return "MERIDIAN FITNESS CLUB";
+            case "3845": return "SCHOTIME FITNESS";
+            case "7844": return "RAMONA FITNESS CENTER";
+            case "4478": return "GOLD'S GYM FORT WALTON BEACH";
+            case "4479": return "GOLD'S GYM DESTIN";
+            case "5265": return "THE IRON ASYLUM GYM";
+            case "7935": return "GENTRY GYM";
+            case "7034": return "ASANA WELLNESS CENTER";
+            case "151": return "BRIDGEWATER FITNESS CENTER";
+            case "30213": return "THE SHARK GYM";
+            case "30216": return "ATHLETICA WOMENS FITNESS CLUB";
+            case "619": return "MV FITWELL CASTROVILLE";
+            case "8325": return "NORTH BEACH HEALTH CLUB CAPE";
+            case "8591": return "LOVELAND ATHLETIC CLUB";
+            case "1312": return "IRON TEMPLE GYM AND MARTIALART";
+            case "30142": return "SOMA FITNESS I";
+            case "30312": return "REBIRTH LIFTING CLUB";
+            case "30549": return "MJ FITNESS AND KICKBOXING";
+            case "5773": return "CUSTOM FITNESS CEDAR RAPIDS";
+            case "5797": return "CACFIT";
             default:
                 return	"Update the club Name in CodeBase";
         }
